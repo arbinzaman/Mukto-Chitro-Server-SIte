@@ -26,6 +26,28 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.get("/event", (req, res) => {
+  const sqlSelect = "SELECT * FROM event";
+  db.query(sqlSelect, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+app.get("/packages", (req, res) => {
+  const sqlSelect = "SELECT * FROM packages";
+  db.query(sqlSelect, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+app.get("/packagedetails", (req, res) => {
+  const sqlSelect = "SELECT * FROM packagedetails";
+  db.query(sqlSelect, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
 app.get("/book", (req, res) => {
   const sqlSelect = "SELECT * FROM book";
   db.query(sqlSelect, (err, data) => {
@@ -38,7 +60,7 @@ app.get("/book", (req, res) => {
 
 app.post("/users", (req, res) => {
   const sql =
-    "INSERT INTO users (userName,address,contact,email,password) VALUES (?,?,?,?,?)";
+    "INSERT INTO users (userName,address,contact,email,password) VALUES (?)";
   const values = [
     req.body.userName, 
     req.body.address, 
@@ -52,6 +74,23 @@ console.log(values);
     return res.json(data);
   });
 });
+
+// app.post("/book", (req, res) => {
+//   const sql =
+//     "INSERT INTO users (userName,address,contact,email,password) VALUES (?)";
+//   const values = [
+//     req.body.userName, 
+//     req.body.address, 
+//     req.body.contact, 
+//     req.body.email, 
+//     req.body.password,
+//   ];
+// console.log(values);
+//   db.query(sql, [values], (err, data) => {
+//     if (err) return res.json(err);
+//     return res.json(data);
+//   });
+// });
 
 app.listen(3001, () => {
   console.log("running on port 3001");
