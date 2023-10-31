@@ -93,6 +93,22 @@ console.log(values);
 });
 
 
+app.post("/event", (req, res) => {
+  const sql =
+    "INSERT INTO event (title,description,img) VALUES (?)";
+  const values = [
+    req.body.title, 
+    req.body.description,
+    req.body.img,
+  ];
+console.log(values);
+  db.query(sql, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+
 
 
 
