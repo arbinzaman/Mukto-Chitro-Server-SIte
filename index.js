@@ -75,22 +75,36 @@ console.log(values);
   });
 });
 
-// app.post("/book", (req, res) => {
-//   const sql =
-//     "INSERT INTO users (userName,address,contact,email,password) VALUES (?)";
-//   const values = [
-//     req.body.userName, 
-//     req.body.address, 
-//     req.body.contact, 
-//     req.body.email, 
-//     req.body.password,
-//   ];
-// console.log(values);
-//   db.query(sql, [values], (err, data) => {
-//     if (err) return res.json(err);
-//     return res.json(data);
-//   });
-// });
+app.post("/packagedetails", (req, res) => {
+  const sql =
+    "INSERT INTO packagedetails (title,price,description,location,event) VALUES (?)";
+  const values = [
+    req.body.title, 
+    req.body.price, 
+    req.body.description, 
+    req.body.location, 
+    req.body.event,
+  ];
+console.log(values);
+  db.query(sql, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(3001, () => {
   console.log("running on port 3001");
