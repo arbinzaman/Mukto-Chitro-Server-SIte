@@ -127,6 +127,17 @@ app.post("/event", (req, res) => {
   });
 });
 
+
+app.post("/packages", (req, res) => {
+  const sql = "INSERT INTO packages (title,description,img) VALUES (?)";
+  const values = [req.body.title, req.body.description, req.body.img];
+  console.log(values);
+  db.query(sql, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
 app.listen(3001, () => {
   console.log("running on port 3001");
 });
