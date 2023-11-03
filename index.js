@@ -182,20 +182,7 @@ async function main() {
       });
     });
 
-    // delete Api
-
-    // app.delete("/users/:id", (req, res) => {
-    //   const sqlDelete = "DELETE FROM users WHERE id = ?";
-    //   const id = req.params.id;
-    //   db.query(
-    //     sqlDelete,
-    //     [req.params.id, req.body.userName, req.body.address],
-    //     (err, data) => {
-    //       if (err) return res.json(err);
-    //       return res.json(data);
-    //     }
-    //   );
-    // });
+  // Delete Api
 
     app.delete("/packages/:id", (req, res) => {
       const { id } = req.params;
@@ -212,6 +199,29 @@ async function main() {
         }
       });
     });
+
+
+    app.delete("/user/:id", (req, res) => {
+      const { id } = req.params;
+      // console.log(id);
+
+      const deleteQuery = "DELETE FROM user WHERE userID = ?";
+
+      db.query(deleteQuery, [id], (error, results) => {
+        if (error) {
+          console.error("Error deleting from the database: " + error);
+          res.status(500).json({ error: "Error deleting data" });
+        } else {
+          res.json({ message: "Row deleted successfully" });
+        }
+      });
+    });
+
+
+
+
+
+
 
     app.listen(3001, () => {
       console.log("running on port 3001");
