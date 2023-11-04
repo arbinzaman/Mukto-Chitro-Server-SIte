@@ -83,41 +83,45 @@ async function main() {
       });
     });
 
-    // app.get("/book/:bookingID ", (req, res) => {
-    //   const bookingID  = req.params.bookingID ;
-    //   const query = "SELECT * FROM book WHERE bookingID  = ?";
-
-    //   db.query(query, [bookingID ], (error, results, fields) => {
-    //     if (error) {
-    //       console.error("Error: " + error);
-    //       res.status(500).json({ error: "Internal server error" });
+    // app.get('/book/:id', (req, res) => {
+    //   const bookingId = req.params.id; // Extract the booking ID from the URL
+    
+    //   // Query the database to retrieve the booking by ID
+    //   const query = 'SELECT * FROM book WHERE bookingId = ?';
+    
+    //   db.query(query, [bookingId], (err, results) => {
+    //     if (err) {
+    //       console.error('Error querying the database:', err);
+    //       res.status(500).json({ error: 'Internal Server Error' });
+    //       return;
+    //     }
+    
+    //     if (results.length > 0) {
+    //       const booking = results[0]; // Assuming there's only one result
+    //       res.json(booking);
     //     } else {
-    //       console.error("Error processing results: " + e);
-    //       res.status(500).json({ error: "Internal server error" });
+    //       res.status(404).json({ error: 'Booking not found' });
     //     }
     //   });
     // });
 
 
 
-    app.get('/book/:id', (req, res) => {
-      const bookingId = req.params.id; // Extract the booking ID from the URL
+    app.get('/book/:customerEmail', (req, res) => {
+      const customerEmail = req.params.customerEmail;
     
-      // Query the database to retrieve the booking by ID
-      const query = 'SELECT * FROM book WHERE bookingId = ?';
+      const query = 'SELECT * FROM book WHERE customerEmail = ?';
     
-      db.query(query, [bookingId], (err, results) => {
+      db.query(query, [customerEmail], (err, results) => {
         if (err) {
           console.error('Error querying the database:', err);
           res.status(500).json({ error: 'Internal Server Error' });
-          return;
-        }
-    
-        if (results.length > 0) {
-          const booking = results[0]; // Assuming there's only one result
-          res.json(booking);
         } else {
-          res.status(404).json({ error: 'Booking not found' });
+          if (results.length > 0) {
+            res.json(results);
+          } else {
+            res.status(404).json({ error: 'No book found for the given email' });
+          }
         }
       });
     });
