@@ -85,24 +85,24 @@ async function main() {
 
     // admin api
 
-    app.get('/users/admin/:email', (req, res) => {
+    app.get("/users/admin/:email", (req, res) => {
       const email = req.params.email;
-      const query = 'SELECT role FROM users WHERE email = ?';
-    
+      const query = "SELECT role FROM users WHERE email = ?";
+
       db.query(query, [email], (error, results, fields) => {
         if (error) {
-          console.error('Error: ' + error);
-          res.status(500).json({ error: 'Internal server error' });
+          console.error("Error: " + error);
+          res.status(500).json({ error: "Internal server error" });
         } else {
           try {
             if (results.length === 0) {
               res.json({ isAdmin: false });
             } else {
-              res.json({ isAdmin: results[0].role === 'admin' });
+              res.json({ isAdmin: results[0].role === "admin" });
             }
           } catch (e) {
-            console.error('Error processing results: ' + e);
-            res.status(500).json({ error: 'Internal server error' });
+            console.error("Error processing results: " + e);
+            res.status(500).json({ error: "Internal server error" });
           }
         }
       });
@@ -167,29 +167,35 @@ async function main() {
       ];
       console.log(values);
       db.query(sql, [values], (err, data) => {
-        if (err) return res.json(err);
-        return res.json(data);
+        if (err) {
+          console.error("Error posting from the database: " + data);
+          res.status(500).json({ error: "Error posting data" });
+        } else {
+          res.json({ message: "Data Posted successfully" });
+        }
       });
     });
 
     app.post("/packages", (req, res) => {
       const sql = "INSERT INTO packages (title,description,img) VALUES (?)";
       const values = [req.body.title, req.body.description, req.body.img];
-      console.log(values);
+      // console.log(values);
       db.query(sql, [values], (err, data) => {
-        if (err) return res.json(err);
-        return res.json(data);
+        if (err) {
+          console.error("Error posting from the database: " + data);
+          res.status(500).json({ error: "Error posting data" });
+        } else {
+          res.json({ message: "Data Posted successfully" });
+        }
       });
     });
 
-  // Delete Api
+    // Delete Api
 
     app.delete("/packages/:id", (req, res) => {
       const { id } = req.params;
-      // console.log(id);
 
       const deleteQuery = "DELETE FROM packages WHERE packageID = ?";
-
       db.query(deleteQuery, [id], (error, results) => {
         if (error) {
           console.error("Error deleting from the database: " + error);
@@ -200,12 +206,11 @@ async function main() {
       });
     });
 
-
-    app.delete("/user/:id", (req, res) => {
+    app.delete("/users/:id", (req, res) => {
       const { id } = req.params;
-      // console.log(id);
+      console.log(id);
 
-      const deleteQuery = "DELETE FROM user WHERE userID = ?";
+      const deleteQuery = "DELETE FROM users WHERE userID = ?";
 
       db.query(deleteQuery, [id], (error, results) => {
         if (error) {
@@ -216,12 +221,6 @@ async function main() {
         }
       });
     });
-
-
-
-
-
-
 
     app.listen(3001, () => {
       console.log("running on port 3001");
