@@ -83,8 +83,55 @@ async function main() {
       });
     });
 
-    // admin api
+    // app.get("/book/:bookingID ", (req, res) => {
+    //   const bookingID  = req.params.bookingID ;
+    //   const query = "SELECT * FROM book WHERE bookingID  = ?";
 
+    //   db.query(query, [bookingID ], (error, results, fields) => {
+    //     if (error) {
+    //       console.error("Error: " + error);
+    //       res.status(500).json({ error: "Internal server error" });
+    //     } else {
+    //       console.error("Error processing results: " + e);
+    //       res.status(500).json({ error: "Internal server error" });
+    //     }
+    //   });
+    // });
+
+
+
+    app.get('/book/:id', (req, res) => {
+      const bookingId = req.params.id; // Extract the booking ID from the URL
+    
+      // Query the database to retrieve the booking by ID
+      const query = 'SELECT * FROM book WHERE bookingId = ?';
+    
+      db.query(query, [bookingId], (err, results) => {
+        if (err) {
+          console.error('Error querying the database:', err);
+          res.status(500).json({ error: 'Internal Server Error' });
+          return;
+        }
+    
+        if (results.length > 0) {
+          const booking = results[0]; // Assuming there's only one result
+          res.json(booking);
+        } else {
+          res.status(404).json({ error: 'Booking not found' });
+        }
+      });
+    });
+
+
+
+
+
+
+
+
+
+
+  // admin api
     app.get("/users/admin/:email", (req, res) => {
       const email = req.params.email;
       const query = "SELECT role FROM users WHERE email = ?";
