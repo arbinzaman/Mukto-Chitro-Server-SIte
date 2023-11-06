@@ -128,13 +128,6 @@ async function main() {
 
 
 
-
-
-
-
-
-
-
   // admin api
     app.get("/users/admin/:email", (req, res) => {
       const email = req.params.email;
@@ -207,10 +200,9 @@ async function main() {
 
     app.post("/book", (req, res) => {
       const sql =
-        "INSERT INTO book (customerEmail,customerName,title,price,location,event) VALUES (?)";
+        "INSERT INTO book (customerEmail,title,price,location,event) VALUES (?)";
       const values = [
         req.body.customerEmail,
-        req.body.customerName,
         req.body.title,
         req.body.price,
         req.body.location,
@@ -247,6 +239,20 @@ async function main() {
       const { id } = req.params;
 
       const deleteQuery = "DELETE FROM packages WHERE packageID = ?";
+      db.query(deleteQuery, [id], (error, results) => {
+        if (error) {
+          console.error("Error deleting from the database: " + error);
+          res.status(500).json({ error: "Error deleting data" });
+        } else {
+          res.json({ message: "Row deleted successfully" });
+        }
+      });
+    });
+
+    app.delete("/event/:id", (req, res) => {
+      const { id } = req.params;
+
+      const deleteQuery = "DELETE FROM event WHERE eventID = ?";
       db.query(deleteQuery, [id], (error, results) => {
         if (error) {
           console.error("Error deleting from the database: " + error);
