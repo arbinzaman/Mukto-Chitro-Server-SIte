@@ -9,11 +9,30 @@ app.use(express.json());
 async function main() {
   try {
     const db = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "muktochitro",
+      host: "sql12.freesqldatabase.com",
+      user: "sql12665888",
+      password: "VElcfBJK4M",
+      database: "sql12665888",
     });
+    
+    // const db = mysql.createConnection({
+    //   host: "localhost",
+    //   user: "root",
+    //   password: "",
+    //   database: "muktochitro",
+    // });
+
+
+
+    // const db = mysql.createConnection({
+    //   host: "sql12.freesqldatabase.com",
+    //   user: "sql12665888",
+    //   password: "VElcfBJK4M",
+    //   database: "sql12665888",
+    // });
+
+
+
 
     app.get("/", (req, res) => {
       return res.json("Hello World");
